@@ -1,0 +1,236 @@
+{
+	"info": {
+		"_postman_id": "4ed1d552-f058-4eda-939b-8dfddf079ae5",
+		"name": "Demo Healthily",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4678958"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"radufurnea2@gmail.com\",\n    \"password\": \"test\",\n    \"age\": 30,\n    \"gender\": \"male\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{address}}/auth/register",
+					"host": [
+						"{{address}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"token\", pm.response.json().access_token);",
+							"pm.collectionVariables.set(\"user_id\", pm.response.json().user_id);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"radufurnea2@gmail.com\",\n    \"password\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{address}}/auth/login",
+					"host": [
+						"{{address}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"assessment_id\", pm.response.json().assessment_id);",
+							"pm.collectionVariables.set(\"next_question_id\", pm.response.json().next_question_id);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\": \"{{user_id}}\",\n    \"initial_symptoms\": [\"Headache\", \"Sore throat\"]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{address}}/assessment/start",
+					"host": [
+						"{{address}}"
+					],
+					"path": [
+						"assessment",
+						"start"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Answer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.set(\"next_question_id\", pm.response.json().next_question_id);",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"question_id\": \"{{next_question_id}}\",\n    \"response\": \"yes\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{address}}/assessment/{{assessment_id}}/answer",
+					"host": [
+						"{{address}}"
+					],
+					"path": [
+						"assessment",
+						"{{assessment_id}}",
+						"answer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Result",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{address}}/assessment/{{assessment_id}}/result",
+					"host": [
+						"{{address}}"
+					],
+					"path": [
+						"assessment",
+						"{{assessment_id}}",
+						"result"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "user_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "assessment_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": ""
+		},
+		{
+			"key": "next_question_id",
+			"value": ""
+		},
+		{
+			"key": "address",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

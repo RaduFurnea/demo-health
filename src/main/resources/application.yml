@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: demo
+
+server:
+  address: 0.0.0.0
+  port: 8080
+
+dynamodb:
+  table:
+    assessments: assessments
+    users: users
+    health_data: health_data
+
+aws:
+  dynamodb:
+    endpoint: ${DYNAMODB_ENDPOINT:http://localhost:8000}
